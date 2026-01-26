@@ -61,6 +61,9 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
+			// Only fetch if we are on the main dashboard view to avoid unnecessary calls
+			if (currentPage !== "dashboard") return;
+
 			setIsLoading(true);
 			setError(null);
 			try {
@@ -92,7 +95,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [currentPage]);
 
 	const handleLogoutClick = () => {
 		localStorage.removeItem("token");
@@ -181,6 +184,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 				onTabChange={setActiveTab}
 				onLogout={handleLogoutClick}
 				userName={
+					userProfile?.user_name ||
 					JSON.parse(localStorage.getItem("user") || "{}").username ||
 					"User"
 				}

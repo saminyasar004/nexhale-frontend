@@ -64,7 +64,7 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 				console.error(err);
 				setError(
 					err.message ||
-						"Failed to load profile. Please login again.",
+					"Failed to load profile. Please login again.",
 				);
 			} finally {
 				setIsLoading(false);
@@ -82,6 +82,18 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 				preferredVapeFlavor: profile.preferred_vape_flavor,
 				preferredVapeLiquidAmount: profile.preferred_vape_liquid_amount,
 			});
+
+			// Sync with localStorage
+			const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+			const updatedUser = {
+				...currentUser,
+				username: profile.user_name,
+				preferredBrand: profile.preferred_brand,
+				preferredVapeFlavor: profile.preferred_vape_flavor,
+				preferredVapeLiquidAmount: profile.preferred_vape_liquid_amount,
+			};
+			localStorage.setItem("user", JSON.stringify(updatedUser));
+
 			setSaved(true);
 			setTimeout(() => setSaved(false), 2000);
 		} catch (err) {
