@@ -46,10 +46,10 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 	const [showAlert, setShowAlert] = useState(true);
 	const [stats, setStats] = useState<any>(null);
 	const [chartData, setChartData] = useState<{ daily: any[], weekly: any[], monthly: any[] }>({
-        daily: [],
-        weekly: [],
-        monthly: []
-    });
+		daily: [],
+		weekly: [],
+		monthly: []
+	});
 	const [leaderboardTar, setLeaderboardTar] = useState<any[]>([]);
 	const [leaderboardNicotine, setLeaderboardNicotine] = useState<any[]>([]);
 	const [quitPlan, setQuitPlan] = useState<any>(null);
@@ -101,7 +101,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 	};
 
 	// Smoking stats
-	const todayCigarettes = stats?.totalCigarettes || 0;
+	const todayCigarettes = stats?.dailyCigarettes || 0;
 	const monthlyCost = stats?.totalCost || 0;
 	const monthlyNicotine = parseFloat(stats?.totalNicotine) || 0;
 	const monthlyTar = parseFloat(stats?.totalTar) || 0;
@@ -251,9 +251,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 									(b) => b.displayName === entry.brand,
 								);
 								await api.post("/quit-plan/log", {
-									date: new Date()
-										.toISOString()
-										.split("T")[0],
+									date: new Date().toLocaleDateString('en-CA'),
 									cigaretteCount: entry.sticks,
 									brandId: brandMatch?.id || 1,
 									cost: entry.sticks * entry.pricePerStick,
@@ -293,7 +291,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 											: "red"
 							}
 							cigarettesToday={todayCigarettes}
-							tarToday={stats?.todayTar || 0}
+							tarToday={stats?.dailyTar || 0}
 						/>
 
 						{/* Leaderboards */}
@@ -356,9 +354,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 						<VapeInputForm
 							onSubmit={async (entry) => {
 								await api.post("/quit-plan/log-vape", {
-									date: new Date()
-										.toISOString()
-										.split("T")[0],
+									date: new Date().toLocaleDateString('en-CA'),
 									puffs: entry.puffs,
 									liquidAmount: entry.liquidAmount,
 									flavor: entry.flavor,
@@ -371,7 +367,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 							defaultFlavor="Mint"
 							userAge={userAge}
 							preferredFlavor={userProfile?.preferred_vape_flavor}
-                            preferredLiquidAmount={userProfile?.preferred_vape_liquid_amount}
+							preferredLiquidAmount={userProfile?.preferred_vape_liquid_amount}
 						/>
 
 						{/* Vape Charts */}

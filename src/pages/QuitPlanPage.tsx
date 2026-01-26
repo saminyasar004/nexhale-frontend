@@ -124,11 +124,10 @@ const QuitPlanPage = ({ onBack }: QuitPlanPageProps) => {
 							(_, index) => (
 								<div
 									key={index}
-									className={`flex-1 rounded-sm transition-all duration-300 ${
-										index < filledSegments
+									className={`flex-1 rounded-sm transition-all duration-300 ${index < filledSegments
 											? progress.color
 											: "bg-muted/50"
-									}`}
+										}`}
 								/>
 							),
 						)}
@@ -196,70 +195,8 @@ const QuitPlanPage = ({ onBack }: QuitPlanPageProps) => {
 					</motion.div>
 				)}
 
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					className="glass-card rounded-2xl p-6"
-				>
-					<div className="flex items-center gap-3 mb-6">
-						<div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-							<TrendingDown className="w-6 h-6 text-primary" />
-						</div>
-						<div>
-							<h2 className="font-display font-semibold text-foreground">
-								Weekly Progress
-							</h2>
-							<p className="text-sm text-muted-foreground">
-								Track your nicotine consumption by week
-							</p>
-						</div>
-					</div>
+				{/* Weekly Progress Section Removed */}
 
-					<div className="space-y-3">
-						{weeklyProgress.map((week) => (
-							<SegmentedProgressBar
-								key={week.week}
-								progress={week}
-							/>
-						))}
-					</div>
-
-					<div className="mt-6 pt-6 border-t border-border/50">
-						<div className="flex items-center justify-between mb-3">
-							<span className="text-sm font-medium text-foreground">
-								Monthly Total
-							</span>
-							<span
-								className={`font-bold ${limitReached ? "text-destructive" : percentUsed > 80 ? "text-warning" : "text-success"}`}
-							>
-								{currentNicotine.toFixed(1)}mg / {nicotineLimit}
-								mg ({percentUsed}%)
-							</span>
-						</div>
-						<div className="flex gap-0.5 h-4 rounded-full overflow-hidden bg-muted/30 p-0.5">
-							{Array.from({ length: 25 }).map((_, index) => (
-								<div
-									key={index}
-									className={`flex-1 rounded-sm transition-all duration-300 ${
-										index <
-										Math.round((percentUsed / 100) * 25)
-											? limitReached
-												? "bg-destructive"
-												: percentUsed > 80
-													? "bg-warning"
-													: "bg-primary"
-											: "bg-muted/50"
-									}`}
-								/>
-							))}
-						</div>
-						<div className="flex justify-between mt-2 text-xs text-muted-foreground">
-							<span>0%</span>
-							<span>50%</span>
-							<span>100%</span>
-						</div>
-					</div>
-				</motion.div>
 
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
@@ -297,8 +234,8 @@ const QuitPlanPage = ({ onBack }: QuitPlanPageProps) => {
 								{limitReached
 									? 0
 									: (nicotineLimit - currentNicotine).toFixed(
-											1,
-										)}
+										1,
+									)}
 								mg
 							</p>
 							<p className="text-sm text-muted-foreground">
@@ -353,11 +290,10 @@ const QuitPlanPage = ({ onBack }: QuitPlanPageProps) => {
 								<button
 									key={preset}
 									onClick={() => setNicotineLimit(preset)}
-									className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
-										nicotineLimit === preset
+									className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${nicotineLimit === preset
 											? "bg-primary text-primary-foreground"
 											: "bg-muted text-muted-foreground hover:bg-muted/80"
-									}`}
+										}`}
 								>
 									{preset}mg
 								</button>
