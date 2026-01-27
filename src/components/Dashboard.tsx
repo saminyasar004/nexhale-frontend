@@ -45,10 +45,14 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 	const [currentPage, setCurrentPage] = useState<PageType>("dashboard");
 	const [showAlert, setShowAlert] = useState(true);
 	const [stats, setStats] = useState<any>(null);
-	const [chartData, setChartData] = useState<{ daily: any[], weekly: any[], monthly: any[] }>({
+	const [chartData, setChartData] = useState<{
+		daily: any[];
+		weekly: any[];
+		monthly: any[];
+	}>({
 		daily: [],
 		weekly: [],
-		monthly: []
+		monthly: [],
 	});
 	const [leaderboardTar, setLeaderboardTar] = useState<any[]>([]);
 	const [leaderboardNicotine, setLeaderboardNicotine] = useState<any[]>([]);
@@ -67,7 +71,18 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 			setIsLoading(true);
 			setError(null);
 			try {
-				const [sum, daily, weekly, monthly, lbTar, lbNic, qp, b, h, profile] = await Promise.all([
+				const [
+					sum,
+					daily,
+					weekly,
+					monthly,
+					lbTar,
+					lbNic,
+					qp,
+					b,
+					h,
+					profile,
+				] = await Promise.all([
 					api.get("/stats/summary"),
 					api.get("/stats/daily"),
 					api.get("/stats/weekly"),
@@ -184,7 +199,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 				onTabChange={setActiveTab}
 				onLogout={handleLogoutClick}
 				userName={
-					userProfile?.user_name ||
+					userProfile?.username ||
 					JSON.parse(localStorage.getItem("user") || "{}").username ||
 					"User"
 				}
@@ -255,7 +270,9 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 									(b) => b.displayName === entry.brand,
 								);
 								await api.post("/quit-plan/log", {
-									date: new Date().toLocaleDateString('en-CA'),
+									date: new Date().toLocaleDateString(
+										"en-CA",
+									),
 									cigaretteCount: entry.sticks,
 									brandId: brandMatch?.id || 1,
 									cost: entry.sticks * entry.pricePerStick,
@@ -264,7 +281,7 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 								window.location.reload();
 							}}
 							userAge={userAge}
-							preferredBrand={userProfile?.preferred_brand}
+							preferredBrand={userProfile?.preferredBrand}
 						/>
 
 						{/* Charts */}
@@ -358,7 +375,9 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 						<VapeInputForm
 							onSubmit={async (entry) => {
 								await api.post("/quit-plan/log-vape", {
-									date: new Date().toLocaleDateString('en-CA'),
+									date: new Date().toLocaleDateString(
+										"en-CA",
+									),
 									puffs: entry.puffs,
 									liquidAmount: entry.liquidAmount,
 									flavor: entry.flavor,
@@ -370,8 +389,10 @@ const Dashboard = ({ onLogout, userAge = 18 }: DashboardProps) => {
 							}}
 							defaultFlavor="Mint"
 							userAge={userAge}
-							preferredFlavor={userProfile?.preferred_vape_flavor}
-							preferredLiquidAmount={userProfile?.preferred_vape_liquid_amount}
+							preferredFlavor={userProfile?.preferredVapeFlavor}
+							preferredLiquidAmount={
+								userProfile?.preferredVapeLiquidAmount
+							}
 						/>
 
 						{/* Vape Charts */}

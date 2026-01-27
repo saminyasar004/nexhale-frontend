@@ -64,7 +64,7 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 				console.error(err);
 				setError(
 					err.message ||
-					"Failed to load profile. Please login again.",
+						"Failed to load profile. Please login again.",
 				);
 			} finally {
 				setIsLoading(false);
@@ -77,20 +77,22 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 		if (!profile) return;
 		try {
 			await api.patch("/user/profile", {
-				username: profile.user_name,
-				preferredBrand: profile.preferred_brand,
-				preferredVapeFlavor: profile.preferred_vape_flavor,
-				preferredVapeLiquidAmount: profile.preferred_vape_liquid_amount,
+				username: profile.username,
+				preferredBrand: profile.preferredBrand,
+				preferredVapeFlavor: profile.preferredVapeFlavor,
+				preferredVapeLiquidAmount: profile.preferredVapeLiquidAmount,
 			});
 
 			// Sync with localStorage
-			const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+			const currentUser = JSON.parse(
+				localStorage.getItem("user") || "{}",
+			);
 			const updatedUser = {
 				...currentUser,
-				username: profile.user_name,
-				preferredBrand: profile.preferred_brand,
-				preferredVapeFlavor: profile.preferred_vape_flavor,
-				preferredVapeLiquidAmount: profile.preferred_vape_liquid_amount,
+				username: profile.username,
+				preferredBrand: profile.preferredBrand,
+				preferredVapeFlavor: profile.preferredVapeFlavor,
+				preferredVapeLiquidAmount: profile.preferredVapeLiquidAmount,
 			};
 			localStorage.setItem("user", JSON.stringify(updatedUser));
 
@@ -183,12 +185,12 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 				<div className="glass-card rounded-2xl p-6 flex items-center gap-4">
 					<div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center neon-glow">
 						<span className="text-3xl font-bold text-primary">
-							{(profile.user_name || "U").charAt(0).toUpperCase()}
+							{(profile.username || "U").charAt(0).toUpperCase()}
 						</span>
 					</div>
 					<div>
 						<h2 className="font-bold text-xl">
-							{profile.user_name}
+							{profile.username}
 						</h2>
 						<p className="text-sm text-muted-foreground">
 							{profile.email}
@@ -208,11 +210,11 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 							</label>
 							<input
 								className="input-field"
-								value={profile.user_name}
+								value={profile.username || ""}
 								onChange={(e) =>
 									setProfile({
 										...profile,
-										user_name: e.target.value,
+										username: e.target.value,
 									})
 								}
 							/>
@@ -225,11 +227,11 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 									Preferred Brand
 								</label>
 								<select
-									value={profile.preferred_brand || ""}
+									value={profile.preferredBrand || ""}
 									onChange={(e) =>
 										setProfile({
 											...profile,
-											preferred_brand: e.target.value,
+											preferredBrand: e.target.value,
 										})
 									}
 									className="input-field"
@@ -249,12 +251,11 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 									Preferred Vape Flavor
 								</label>
 								<select
-									value={profile.preferred_vape_flavor || ""}
+									value={profile.preferredVapeFlavor || ""}
 									onChange={(e) =>
 										setProfile({
 											...profile,
-											preferred_vape_flavor:
-												e.target.value,
+											preferredVapeFlavor: e.target.value,
 										})
 									}
 									className="input-field"
@@ -277,13 +278,12 @@ const ProfilePage = ({ onBack }: ProfilePageProps) => {
 									className="input-field"
 									placeholder="e.g. 2.0"
 									value={
-										profile.preferred_vape_liquid_amount ||
-										""
+										profile.preferredVapeLiquidAmount || ""
 									}
 									onChange={(e) =>
 										setProfile({
 											...profile,
-											preferred_vape_liquid_amount:
+											preferredVapeLiquidAmount:
 												e.target.value.replace(
 													/[^0-9.]/g,
 													"",
