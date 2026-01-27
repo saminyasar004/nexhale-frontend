@@ -1,9 +1,10 @@
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://ca2cab947971.ngrok-free.app/api";
 
 const getHeaders = () => {
 	const token = localStorage.getItem("token");
 	return {
 		"Content-Type": "application/json",
+		"ngrok-skip-browser-warning": "69420",
 		...(token ? { Authorization: `Bearer ${token}` } : {}),
 	};
 };
