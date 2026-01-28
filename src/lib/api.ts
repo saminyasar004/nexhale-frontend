@@ -1,4 +1,4 @@
-const BASE_URL = "https://ca2cab947971.ngrok-free.app/api";
+const BASE_URL = "https://10a98495699c.ngrok-free.app/api";
 
 const getHeaders = () => {
 	const token = localStorage.getItem("token");
