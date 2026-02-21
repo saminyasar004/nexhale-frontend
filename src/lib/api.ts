@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:5000/api";
+// const BASE_URL = "http://localhost:5000/api";
+const BASE_URL =
+	"https://existing-concerts-pro-foundation.trycloudflare.com/api";
 
 const getHeaders = () => {
 	const token = localStorage.getItem("token");
