@@ -141,6 +141,7 @@ const AuthPage = ({ onLogin }: AuthPageProps) => {
 						username: formData.name,
 						email: formData.email,
 						password: formData.password,
+						preferredBrand: formData.preferredBrand,
 						// age: formData.age, // Backend doesn't support age yet but we can add it if needed
 					});
 					localStorage.setItem("user", JSON.stringify(data));
